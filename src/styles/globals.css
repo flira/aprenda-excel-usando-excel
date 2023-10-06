@@ -48,37 +48,27 @@ div,
 }
 
 .creu1 span,
-.creu1 div,
-.creu1 div::before,
-.creu1 div::after {
+.creu1 div {
   animation-duration: calc(var(--animation-duration) * .8);
 }
 
 .creu2 span,
-.creu2 div,
-.creu2 div::before,
-.creu2 div::after {
+.creu2 div {
   animation-duration: calc(var(--animation-duration) * .6);
 }
 
 .creu3 span,
-.creu3 div,
-.creu3 div::before,
-.creu3 div::after {
+.creu3 div {
   animation-duration: calc(var(--animation-duration) * .4);
 }
 
 .creu4 span,
-.creu4 div,
-.creu4 div::before,
-.creu4 div::after {
+.creu4 div {
   animation-duration: calc(var(--animation-duration) * .25);
 }
 
 .creu5 span,
-.creu5 div,
-.creu5 div::before,
-.creu5 div::after {
+.creu5 div {
   animation-duration: calc(var(--animation-duration) * .1);
 }
 

@@ -187,29 +187,6 @@
   position: absolute;
 }
 
-.arrow {
-  align-items: center;
-  display: flex;
-  width: auto;
-}
-
-.arrow::before,
-.arrow::after {
-  --animation-duration: .75s;
-  background-image: url('/img/right-arrow.svg');
-  height: 3em;
-  margin: 0 1em;
-  width: 3em;
-}
-
-.arrow::before {
-  animation: var(--animation-duration) ease-in-out 0s infinite alternate arrow-left;
-}
-
-.arrow::after {
-  animation: var(--animation-duration) ease-in-out 0s infinite alternate arrow-right;
-}
-
 .download {
   border: outisde 5px;
   background: linear-gradient(#eee, #ccc);

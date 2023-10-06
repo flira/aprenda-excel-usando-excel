@@ -59,11 +59,9 @@ function ExcelGrid({ onMouseEnter, onMouseLeave }: ExcelGridProp): JSX.Element {
     </h1>
   )
   const downloadBtn = (
-    <div className={`${css.arrow} pseudos`}>
-      <button className={css.download} onClick={download}>
-        Baixar
-      </button>
-    </div>
+    <button className={css.download} onClick={download}>
+      Baixar
+    </button>
   )
   const bgGrid: JSX.Element[] = [];
   for (let i = 3; i < 50; i++) {
