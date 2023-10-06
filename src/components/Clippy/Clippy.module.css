@@ -1,0 +1,14 @@
+.window {
+  background-size: contain;
+}
+
+.window {
+  background-image: url(./img/window.png);
+  bottom: calc(64px / var(--resolution));
+  box-sizing: border-box;
+  height: calc(261px / var(--resolution));
+  padding: calc(31px / var(--resolution)) calc(6px / var(--resolution)) calc(6px / var(--resolution));
+  position: fixed;
+  right: 44px;
+  width: calc(236px / var(--resolution));
+}

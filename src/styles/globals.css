@@ -1,0 +1,94 @@
+@import './bgs.css';
+
+:root {
+  --resolution: 1;
+}
+
+html {
+  font: 100%/1.3 normal normal arial, sans-serif;
+}
+
+.body-main {
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  height: 100vh;
+  overflow: hidden;
+}
+
+div,
+.after::after,
+.before::before,
+.pseudos::after,
+.pseudos::before {
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100%;
+}
+
+.after::after,
+.before::before,
+.pseudos::after,
+.pseudos::before {
+  content: "";
+  display: inline-block;
+}
+
+.flex {
+  display: flex;
+}
+
+.bg-repeat__x {
+  background-repeat: repeat-x;
+}
+
+.bg-repeat__y {
+  background-repeat: repeat-y;
+}
+
+.creu1 span,
+.creu1 div,
+.creu1 div::before,
+.creu1 div::after {
+  animation-duration: calc(var(--animation-duration) * .8);
+}
+
+.creu2 span,
+.creu2 div,
+.creu2 div::before,
+.creu2 div::after {
+  animation-duration: calc(var(--animation-duration) * .6);
+}
+
+.creu3 span,
+.creu3 div,
+.creu3 div::before,
+.creu3 div::after {
+  animation-duration: calc(var(--animation-duration) * .4);
+}
+
+.creu4 span,
+.creu4 div,
+.creu4 div::before,
+.creu4 div::after {
+  animation-duration: calc(var(--animation-duration) * .25);
+}
+
+.creu5 span,
+.creu5 div,
+.creu5 div::before,
+.creu5 div::after {
+  animation-duration: calc(var(--animation-duration) * .1);
+}
+
+.triple-bg {
+  background-position-x:
+    0,
+    100%,
+    0;
+  background-repeat:
+    no-repeat,
+    no-repeat,
+    repeat;
+}

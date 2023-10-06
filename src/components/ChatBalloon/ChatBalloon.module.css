@@ -1,0 +1,36 @@
+.balloon,
+.balloon::after,
+.balloon::before {
+  background: #ffffcc;
+  position: absolute;
+}
+
+.balloon::after,
+.balloon::before {
+  border: transparent 1px solid;
+  bottom: -20px;
+  box-shadow: 10px 5px 5px red;
+  clip-path: polygon(0 0, 100% 100%, 100% 0);
+  left: 20%;
+  height: 20px;
+  width: 15px;
+}
+
+.balloon {
+  border: solid 1px;
+  border-radius: 5px;
+  font-family: monospace;
+  left: 0;
+  padding: 8px;
+  top: -6em;
+  width: auto;
+}
+
+.balloon::after {
+  border-right-color: #000;
+}
+
+.balloon::before {
+  background: #000;
+  transform: translateX(-1px);
+}

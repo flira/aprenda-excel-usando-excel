@@ -1,0 +1,82 @@
+.footer {
+  height: calc(38px / var(--resolution));
+  line-height: 0;
+  width: 100%;
+}
+
+.footer::after {
+  background-image:
+    var(--bg60),
+    var(--bg66),
+    var(--bg61);
+  background-position-x:
+    0,
+    100%,
+    0;
+  background-repeat:
+    no-repeat,
+    no-repeat,
+    repeat;
+  height: calc(22px / var(--resolution));
+}
+
+.tabs {
+  background-image:
+    var(--bg41),
+    var(--bg46);
+  background-repeat:
+    no-repeat,
+    repeat;
+  box-sizing: border-box;
+  justify-content: space-between;
+  padding-left: calc(63px / var(--resolution));
+}
+
+.tabs::after {
+  background-image:
+    var(--bg48),
+    var(--bg49),
+    var(--bg50),
+    var(--bg53),
+    var(--bg55),
+    var(--bg58),
+    var(--bg59),
+    var(--bg51);
+  background-repeat:
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    repeat;
+  background-position-x:
+    0,
+    calc(6px / var(--resolution)),
+    calc(22px / var(--resolution)),
+    calc(50% - 8px / var(--resolution)),
+    calc(100% - 41px / var(--resolution)),
+    calc(100% - 19px / var(--resolution)), 100%, 0;
+  width: 33vw;
+}
+
+.tab {
+  align-items: center;
+  background-image: var(--bg42), var(--bg45), var(--bg43);
+  display: inline-block;
+  height: calc(16px / var(--resolution));
+  padding: 0 calc(50px / var(--resolution)) 0 calc(4px / var(--resolution));
+  width: auto;
+}
+
+.tab::before {
+  color: #1a4992;
+  content: attr(data-label);
+  display: inline-block;
+  font-size: calc(12px / var(--resolution));
+  font-weight: 700;
+  line-height: 1;
+  padding: 0 calc(4px / var(--resolution));
+  vertical-align: top;
+}
