@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react'
+import { MouseEventHandler, useEffect, useState } from 'react'
 import css from './ExcelGrid.module.css'
 
 type ExcelGridProp = {
@@ -16,7 +16,6 @@ function buildFirstRow(): JSX.Element[] {
       className={css.row}
       data-label={String.fromCharCode(64 + i)} />)
   }
-  console.log(cells);
   return cells;
 }
 
@@ -34,13 +33,27 @@ function buildRow(i: number, item?: JSX.Element): JSX.Element[] {
 }
 
 function download(): void {
-  const download = window.open(
+  window.open(
     '/Aprenda-Excel-Usando-Excel.xlsx',
     'download-tab'
   )
 }
 
 function ExcelGrid({ onMouseEnter, onMouseLeave }: ExcelGridProp): JSX.Element {
+  /**
+   * The text-shadow on the wordart1 works correctly on
+   * most browsers, except safari. I didn't want to remove
+   * it completely for every browser, so this state removes
+   * only on apple devices.
+   */
+  const [isMac, setIsMac] = useState(false)
+  useEffect(() => {
+    if (typeof navigator === 'undefined' ||
+      !/apple/i.test((navigator as Navigator).userAgent)) {
+      return
+    }
+    setIsMac(true);
+  }, [false])
   const title: JSX.Element = (
     <h1
       className={css.title}
@@ -48,7 +61,7 @@ function ExcelGrid({ onMouseEnter, onMouseLeave }: ExcelGridProp): JSX.Element {
       onMouseLeave={onMouseLeave}>
       <div className={css.line1}>
         <span className={css.intro1}>Aprenda</span>
-        <span className={`${css.wordart1} ${css.shadow}`}>Excel</span>
+        <span className={`${css.wordart1} ${isMac ? css.noshadow : ''} ${css.shadow}`}>Excel</span>
       </div>
       <div className={css.line2}>
         <span className={css.intro2}>

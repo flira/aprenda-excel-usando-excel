@@ -153,6 +153,15 @@
   transform: rotate3d(1, -1, -0.5, 35deg);
 }
 
+.wordart1.noshadow {
+  text-shadow: none;
+}
+
+.wordart1.noshadow::before {
+  left: -.05em;
+  top: -.05em;
+}
+
 .wordart1::before {
   background-image: linear-gradient(#fdea55, #fe5a00);
   left: -1px;
