@@ -18,8 +18,8 @@ const flags = args.parse(process.argv)
 
 const encoding = { encoding: 'utf8' }
 const paths = {
-  css: fs.realpathSync('./src/styles'),
-  img: fs.realpathSync('./public/img/spreadsheet')
+  css: './src/styles',
+  img: './public/img/spreadsheet'
 }
 
 /**
@@ -116,7 +116,7 @@ function runb64Img() {
   b64img.fromString(
     createCssString(),
     '',
-    fs.realpathSync('./'),
+    '',
     { maxSize: 7196 }
     , b64FromString
   )
@@ -144,5 +144,5 @@ if (flags[argNames.watch]) {
     runb64Img()
     setTimeout(resetCurrentFile, 500)
   }
-  fs.watch(fs.realpathSync('./src/components'), { recursive: true }, watch)
+  fs.watch('./src/components', { recursive: true }, watch)
 }
