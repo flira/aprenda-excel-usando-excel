@@ -46,56 +46,10 @@
   width: 100%;
 }
 
-.title {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  font-size: 2em;
-  color: #333;
-  justify-content: center;
-  margin: 0;
-  padding: var(--cell-padding);
-  text-align: center;
-}
-
 @media screen and (min-width: 1024px){
   .content {
     grid-template-columns: calc(33px / var(--resolution)) 48vw repeat(7, 10vw);
   }
-
-  .title {
-    font-size: 2vw;
-  }
-}
-
-.line1 {
-  font-size: 2.62em;
-}
-
-.line2 {
-  font-size: 1.62em;
-  padding: 0.5em 1.62em 0;
-}
-
-.intro1 {
-  --animation-duration: .5s;
-  animation: var(--animation-duration) ease-in-out 0s infinite alternate blink;
-  font-family: monospace;
-}
-
-.intro2 {
-  display: inline-block;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  overflow: hidden;
-}
-
-.rail {
-  --animation-duration: 5s;
-  animation: var(--animation-duration) linear 0s infinite line-2;
-  background-clip: text;
-  background-image: linear-gradient(to right, #d30808, #e2b51f, #34be34, #1dacac, #0000ff, #782cdb);
-  color: transparent;
-  display: inline-block;
 }
 
 .col0 {
@@ -143,59 +97,6 @@
   line-height: 1;
 }
 
-.wordart1 {
-  --animation-duration: .6s;
-  animation: var(--animation-duration) linear 0s infinite wordart-1-animation;
-  color: #822400;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  font-size: 1.62em;
-  text-shadow: 0.01em 0.01em, 0.02em 0.02em, 0.03em 0.03em, 0.04em 0.04em, 0.05em 0.05em, 0.06em 0.06em, 0.07em 0.07em;
-  transform: rotate3d(1, -1, -0.5, 35deg);
-}
-
-.wordart1.noshadow {
-  text-shadow: none;
-}
-
-.wordart1.noshadow::before {
-  left: -.05em;
-  top: -.05em;
-}
-
-.wordart1::before {
-  background-image: linear-gradient(#fdea55, #fe5a00);
-  left: -1px;
-  top: -1px;
-}
-
-.wordart2 {
-  --animation-duration: 1s;
-  animation: var(--animation-duration) ease-in-out 0s infinite alternate wordart-2-animation;
-  color: #222;
-  font-weight: 900;
-}
-
-.wordart2::before {
-  background-image: linear-gradient(#61d394, #107c41);
-  bottom: 0.025em;
-  left: 0.025em;
-}
-
-.shadow {
-  display: inline-block;
-  line-height: 1;
-  position: relative;
-}
-
-.shadow::before {
-  background-clip: text;
-  color: transparent;
-  content: "Excel";
-  display: inline-block;
-  line-height: 1;
-  position: absolute;
-}
-
 .download {
   border: outisde 5px;
   background: linear-gradient(#eee, #ccc);
@@ -213,100 +114,4 @@
   border: ridge inset 5px;
   background: linear-gradient(#ccc, #eee);
   box-shadow: 1px 1px 2px rgba(0,0,0,.1) inset;
-}
-
-@keyframes blink {
-  0% {
-    opacity: 0.2;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes line-2 {
-  0% {
-    transform: translateX(100%);
-  }
-
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-@keyframes wordart-1-animation {
-  0% {
-    transform: rotate3d(1, -1, -0.5, 35deg) translate(0, 0);
-  }
-
-  19% {
-    transform: rotate3d(1, -1, -0.5, 35deg) translate(0, 0);
-  }
-
-  20% {
-    transform: rotate3d(1, -1, -0.5, 35deg) translate(-0.1em, 0.1em);
-  }
-
-  39% {
-    transform: rotate3d(1, -1, -0.5, 35deg) translate(-0.1em, 0.1em);
-  }
-
-  40% {
-    transform: rotate3d(1, -1, -0.5, 35deg) translate(0.1em, -0.1em);
-  }
-
-  59% {
-    transform: rotate3d(1, -1, -0.5, 35deg) translate(0.1em, -0.1em);
-  }
-
-  60% {
-    transform: rotate3d(1, -1, -0.5, 35deg) translate(-0.1em, 0);
-  }
-
-  79% {
-    transform: rotate3d(1, -1, -0.5, 35deg) translate(-0.1em, 0);
-  }
-
-  80% {
-    transform: rotate3d(1, -1, -0.5, 35deg) translate(0, 0.1em);
-  }
-
-  99% {
-    transform: rotate3d(1, -1, -0.5, 35deg) translate(0, 0.1em);
-  }
-
-  100% {
-    transform: rotate3d(1, -1, -0.5, 35deg) translate(0, 0);
-  }
-}
-
-@keyframes wordart-2-animation {
-  0% {
-    transform: rotateY(0);
-  }
-
-  100% {
-    transform: rotateY(90deg);
-  } 
-}
-
-@keyframes arrow-left {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-1em);
-  } 
-}
-
-@keyframes arrow-right {
-  0% {
-    transform: translateX(0) rotate(180deg);
-  }
-
-  100% {
-    transform: translateX(1em) rotate(180deg);
-  } 
 }

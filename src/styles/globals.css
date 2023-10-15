@@ -8,13 +8,24 @@ html {
   font: 100%/1.3 normal normal arial, sans-serif;
 }
 
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 .body-main {
-  background: #000;
   display: flex;
   flex-direction: column;
   justify-content: stretch;
   height: 100vh;
   overflow: hidden;
+}
+
+.self-destruction {
+  background-color: #000;
 }
 
 div,
@@ -54,22 +65,22 @@ div,
 
 .creu2 span,
 .creu2 div {
-  animation-duration: calc(var(--animation-duration) * .6);
+  animation-duration: calc(var(--animation-duration) * .7);
 }
 
 .creu3 span,
 .creu3 div {
-  animation-duration: calc(var(--animation-duration) * .4);
+  animation-duration: calc(var(--animation-duration) * .5);
 }
 
 .creu4 span,
 .creu4 div {
-  animation-duration: calc(var(--animation-duration) * .25);
+  animation-duration: calc(var(--animation-duration) * .4);
 }
 
 .creu5 span,
 .creu5 div {
-  animation-duration: calc(var(--animation-duration) * .1);
+  animation-duration: calc(var(--animation-duration) * .2);
 }
 
 .triple-bg {

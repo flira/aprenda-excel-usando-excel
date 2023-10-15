@@ -1,9 +1,29 @@
-import { MouseEventHandler, useEffect, useState } from 'react'
+import PageTitle from '../PageTitle'
 import css from './ExcelGrid.module.css'
 
-type ExcelGridProp = {
-  onMouseEnter: MouseEventHandler,
-  onMouseLeave: MouseEventHandler
+function ExcelGrid(): JSX.Element {
+  const downloadBtn = (
+    <button className={css.download} onClick={download}>
+      Baixar
+    </button>
+  )
+  const bgGrid: JSX.Element[] = [];
+  for (let i = 3; i < 50; i++) {
+    const row = buildRow(i)
+    row.forEach(element => {
+      bgGrid.push(element)
+    });
+  }
+  return (
+    <div className={`${css.main} pseudos flex`}>
+      <article className={css.content}>
+        {buildFirstRow()}
+        {buildRow(1, PageTitle())}
+        {buildRow(2, downloadBtn)}
+        {bgGrid}
+      </article>
+    </div>
+  );
 }
 
 const numCols: number = 9;
@@ -37,62 +57,6 @@ function download(): void {
     '/Aprenda-Excel-Usando-Excel.xlsx',
     'download-tab'
   )
-}
-
-function ExcelGrid({ onMouseEnter, onMouseLeave }: ExcelGridProp): JSX.Element {
-  /**
-   * The text-shadow on the wordart1 works correctly on
-   * most browsers, except safari. I didn't want to remove
-   * it completely for every browser, so this state removes
-   * only on apple devices.
-   */
-  const [isMac, setIsMac] = useState(false)
-  useEffect(() => {
-    if (typeof navigator === 'undefined' ||
-      !/apple/i.test((navigator as Navigator).userAgent)) {
-      return
-    }
-    setIsMac(true);
-  }, [false])
-  const title: JSX.Element = (
-    <h1
-      className={css.title}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}>
-      <div className={css.line1}>
-        <span className={css.intro1}>Aprenda</span>
-        <span className={`${css.wordart1} ${isMac ? css.noshadow : ''} ${css.shadow}`}>Excel</span>
-      </div>
-      <div className={css.line2}>
-        <span className={css.intro2}>
-          <span className={css.rail}>usando</span>
-        </span>
-        <span className={`${css.wordart2} ${css.shadow}`}>Excel</span>
-      </div>
-    </h1>
-  )
-  const downloadBtn = (
-    <button className={css.download} onClick={download}>
-      Baixar
-    </button>
-  )
-  const bgGrid: JSX.Element[] = [];
-  for (let i = 3; i < 50; i++) {
-    const row = buildRow(i)
-    row.forEach(element => {
-      bgGrid.push(element)
-    });
-  }
-  return (
-    <div className={`${css.main} pseudos flex`}>
-      <article className={css.content}>
-        {buildFirstRow()}
-        {buildRow(1, title)}
-        {buildRow(2, downloadBtn)}
-        {bgGrid}
-      </article>
-    </div>
-  );
 }
 
 export default ExcelGrid;

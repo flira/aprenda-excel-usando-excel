@@ -1,56 +1,24 @@
+import { useCaos } from '@/hooks/CaosContext'
+import useScreenResolution from '@/hooks/useScreenResolution'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Clippy from '@/components/Clippy'
 import ExcelGrid from '@/components/ExcelGrid'
-/**
- * Avoid scaling up background images
- * more than their original size
- */
-const updateResolution: () => void = () => {
-  const res: number = window.devicePixelRatio > 1 ?
-    window.devicePixelRatio : 1;
-  (document.querySelector(':root') as HTMLElement)?.style
-    .setProperty('--resolution', `${res}`)
-}
-
-/** Page Title */
-const title: string = 'Aprenda Excel Usando Excel'
-
-let caosTimer: NodeJS.Timeout
-let destructionTimer: NodeJS.Timeout
 
 export default function Home(): JSX.Element {
-  useEffect(() => {
-    updateResolution()
-    window.addEventListener('resize', updateResolution)
-  })
-  const [caos, setCaos] = useState(0)
-  const setCaosClass: () => string = () => {
-    let currentClass: string = ''
-    if (caos === 0) {
-      currentClass = ''
+  const caos = useCaos()
+  const caosClassName: () => string = () => {
+    if (!caos.value) {
+      return ''
+    } else if (caos.value === caos.max) {
+      return `creu${caos.value - 1} self-destruction`
     } else {
-      currentClass = 'creu' + caos
+      return `creu${caos.value}`
     }
-    return currentClass
   }
-  const resetCaos: () => void = () => {
-    setCaos(0)
-    clearInterval(caosTimer)
-  }
-  const updateCaos: () => void = () => {
-    let i:number = caos
-    const setHigher: () => void = () => {
-      setCaos(i++)
-      if (i > 5) {
-        clearInterval(caosTimer)
-        return
-      }
-    }
-    caosTimer = setInterval(setHigher, 2500);
-  }
+  useScreenResolution()
+
   return (
     <>
       <Head>
@@ -63,12 +31,10 @@ export default function Home(): JSX.Element {
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={setCaosClass()}>
+      <div className={caosClassName()}>
         <main className='body-main'>
           <Header>{title}</Header>
-          <ExcelGrid
-            onMouseEnter={updateCaos}
-            onMouseLeave={resetCaos} />
+          <ExcelGrid />
           <Footer>{title}</Footer>
         </main>
         <aside>
@@ -78,3 +44,6 @@ export default function Home(): JSX.Element {
     </>
   )
 }
+
+/** Page Title */
+const title: string = 'Aprenda Excel Usando Excel'
