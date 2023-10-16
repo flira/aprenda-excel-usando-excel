@@ -37,7 +37,7 @@ function PageTitle(): JSX.Element {
       </div>
       <div className={css.line2}>
         <span className={css.intro2}>
-          <span className={css.rail}>{splitText('usando')}</span>
+          <span className={css.wrapper}>{splitText('usando')}</span>
         </span> 
         <span className={`${css.wordart2} ${css.shadow}`}>Excel</span>
       </div>
@@ -49,7 +49,7 @@ function splitText(text: string): JSX.Element[] {
   const textMap: (value: string, i: number, arr: string[]) => JSX.Element =
     (value, i, arr) => (
       <span
-        className={css.wagon}
+        className={css.letter}
         key={`wagon-key-${i}`}
         style={
           {
@@ -59,7 +59,7 @@ function splitText(text: string): JSX.Element[] {
         {value}
       </span>
     )
-  return text.split('').map(textMap)
+  return Array.from(text).map(textMap)
 }
 
 export default PageTitle

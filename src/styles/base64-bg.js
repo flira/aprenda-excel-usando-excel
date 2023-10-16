@@ -17,75 +17,58 @@ args.option(argNames.watch, 'Watch for CSS updates', false)
 const flags = args.parse(process.argv)
 
 const encoding = { encoding: 'utf8' }
-const paths = {
-  css: './src/styles',
-  img: './public/img/spreadsheet'
-}
 
 /**
- * @param {string} extension Extension to be filtered.
  * @param {string} relPath Relative path of the files.
- * @param {string[]} [files] Array to be returned (recursively used).
- * @returns Array with every file of a specific extension.
+ * @param {string?} extension Extension to be filtered.
+ * @returns {string[]} Array with every file of a specific extension.
  */
-function getFilesByExtension(extension, relPath, files) {
-  const dirents = fs.readdirSync(
-    fs.realpathSync(relPath),
-    { withFileTypes: true }
-  )
-  files = files || [];
+function getFilesByExtension(relPath, extension) {
+  const dirents = fs.readdirSync(relPath, { withFileTypes: true })
 
-  dirents.forEach(dirent => {
-    if (dirent.isDirectory()) {
-      files = getFilesByExtension(
-        extension,
+  const flatMapFiles = dirent => {
+    if (typeof dirent === 'object' && dirent.isDirectory()) {
+      return fs.readdirSync(
         `${dirent.path}/${dirent.name}`,
-        files
-      )
-    } else if (RegExp(extension, 'i').test(dirent.name)) {
-      files.push(`${dirent.path}/${dirent.name}`)
+        { withFileTypes: true }
+      ).flatMap(flatMapFiles)
     }
-  })
+    return `${dirent.path}/${dirent.name}`
+  }
 
-  return files
+  const allFiles = dirents.flatMap(flatMapFiles)
+
+  if (!extension) {
+    return allFiles
+  }
+
+  return allFiles.filter(file => new RegExp(extension, 'i').test(file))
 }
 
 /**
- * @param {string[]} files Files to be searched.
- * @param {string} text Text to be searched.
- * @returns {boolean} If the text was found inside any of the files.
- */
-function testFiles(files, text) {
-  if (!files || !text || !text.length) {
-    return
-  }
-  for (const file of files) {
-    if (RegExp(text, 'i').test(fs.readFileSync(file, encoding))) {
-      return true
-    }
-  }
-  return false
-}
-
-/**
+ * @param {string} imgsPath 
+ * Path to all slice images
  * @returns {string}
- * CSS data with every image inside the folder
- * './public/img/spreadsheet' as a css variable.
+ * CSS with every image inside the folder
+ * './public/img/spreadsheet' as a css variable named
+ * "--bg[SLICE_NUMBER]".
  * It skips any image not used in any CSS inside
  * the './src' folder.
  */
-function createCssString() {
-  const imgs = fs.readdirSync(paths.img)
-  const cssFiles = getFilesByExtension('css', './src')
-  const testCssFiles = testFiles.bind(null, cssFiles)
+function createCssString(imgsPath) {
+  const cssFiles = getFilesByExtension('./src', 'css')
+    .map(file => fs.readFileSync(file, encoding))
+  const sliceNumbers = fs.readdirSync(imgsPath)
+    .map(img => /\d+/g.exec(img)[0])
+    .filter(
+      number => !!cssFiles.find(
+        file => new RegExp(`var\\(--bg${parseInt(number)}\\)`).test(file)
+      )
+    )
   let cssString = ':root{'
-  for (const img of imgs) {
-    const i = /\d+/.test(img) ? /\d+/.exec(img)[0] : 0
-    if (i && !testCssFiles(`--bg${parseInt(i)}`)) {
-      continue
-    }
-    cssString += `--bg${parseInt(i)}:url(${paths.img}/slc_${i}.png);`
-  }
+  sliceNumbers.forEach(number => {
+    cssString += `--bg${parseInt(number)}:url(${imgsPath}/slc_${number}.png);`
+  })
   cssString += '}'
   return cssString
 }
@@ -101,7 +84,7 @@ function b64FromString(err, css) {
     console.error(err)
     return
   }
-  fs.writeFileSync(`${paths.css}/bgs.css`, css, encoding)
+  fs.writeFileSync('./src/styles/bgs.css', css, encoding)
   console.log('base64 images created on "bgs.css"')
 }
 
@@ -114,7 +97,7 @@ function b64FromString(err, css) {
  */
 function runb64Img() {
   b64img.fromString(
-    createCssString(),
+    createCssString('./public/img/spreadsheet'),
     '',
     '',
     { maxSize: 7196 }
@@ -137,7 +120,7 @@ if (flags[argNames.watch]) {
     currentFile = ''
   }
   const watch = (eventType, filename) => {
-    if(currentFile === filename) {
+    if (currentFile === filename) {
       return
     }
     currentFile = filename

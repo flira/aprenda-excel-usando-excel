@@ -44,7 +44,7 @@
   text-transform: uppercase;
 }
 
-.rail {
+.wrapper {
   --animation-duration: .5s;
   background-clip: text;
   background-image: linear-gradient(to bottom, #d30808, #d30808 5%, #e2b51f, #34be34, #1dacac, #0000ff, #782cdb);
@@ -52,7 +52,7 @@
   line-height: 1;
 }
 
-.wagon {
+.letter {
   animation: var(--animation-duration) ease-in-out 0s infinite alternate-reverse wagon-animation;
   display: inline-block;
 }
