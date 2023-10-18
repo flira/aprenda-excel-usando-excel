@@ -8,9 +8,9 @@ import {
 } from "react"
 
 /** @see useScreenSize */
-export type ScreenSize = 'large' | 'small'
+export type ScreenSize = 'medium' | 'narrow' |'wide' 
 
-const initialScreenSize: ScreenSize = 'large' as ScreenSize
+const initialScreenSize: ScreenSize = 'medium' as ScreenSize
 const ScreenSizeContext: Context<ScreenSize> =
   createContext(initialScreenSize)
 
@@ -48,7 +48,14 @@ export function useScreenSize(): ScreenSize {
 }
 
 function getScreenSize(): ScreenSize {
-  return window.matchMedia("(max-width: 1023px)").matches ? 'small' : 'large'
+  const queries: {[key: string]: string} = {
+    medium: '(min-width: 40rem) and (max-width: 79rem)',
+    narrow: '(max-width: 39rem)',
+    wide: '(min-width: 80rem)'
+  }
+  return Object.keys(queries).find(
+    query => matchMedia(queries[query]).matches
+  ) as ScreenSize
 }
 
 export default useScreenSize
