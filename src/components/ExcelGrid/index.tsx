@@ -1,3 +1,4 @@
+import DownloadButton from '../DownloadButton'
 import PageTitle from '../PageTitle'
 import css from './ExcelGrid.module.css'
 
@@ -17,17 +18,11 @@ const descriptionParagraphs: string[] = [
 function ExcelGrid(): JSX.Element {
   const totalCols: number = 4
   const totalRows: number = descriptionParagraphs.length + 3
-  const downloadBtn = (
-    <div className={css.downloadWrapper}>
-      <button className={css.download} onClick={download}>
-        Baixar
-      </button>
-    </div>
-  )
+
   const contentMap: Map<string, Cell> = new Map()
   contentMap
     .set('A1', { el: <PageTitle />, colSpan: 3 })
-    .set(`B${descriptionParagraphs.length + 2}`, { el: downloadBtn })
+    .set(`B${descriptionParagraphs.length + 2}`, { el: <DownloadButton/> })
   descriptionParagraphs.forEach((p: string, i: number) => {
     const cell: string = 'B' + (2 + i)
     contentMap.set(cell, { el: <p>{p}</p> })
@@ -86,13 +81,6 @@ function buildRows(
     }
   }
   return cells
-}
-
-function download(): void {
-  window.open(
-    '/Aprenda-Excel-Usando-Excel.xlsx',
-    'download-tab'
-  )
 }
 
 export default ExcelGrid;
