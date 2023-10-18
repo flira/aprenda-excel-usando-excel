@@ -8,9 +8,9 @@ import {
 } from "react"
 
 /** @see useScreenSize */
-type ScreenSize = 'large' | 'small'
+export type ScreenSize = 'large' | 'small'
 
-const initialScreenSize: ScreenSize = 'small' as ScreenSize
+const initialScreenSize: ScreenSize = 'large' as ScreenSize
 const ScreenSizeContext: Context<ScreenSize> =
   createContext(initialScreenSize)
 

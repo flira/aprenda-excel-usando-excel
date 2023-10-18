@@ -10,7 +10,7 @@ import {
   useReducer
 } from "react"
 
-type Caos = {
+export type Caos = {
   /** Caos level. If Caos reach maximum level, everything explodes. */
   value: 0 | 1 | 2 | 3 | 4 | 5 | 6,
   /** Maximum level. */

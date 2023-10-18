@@ -1,6 +1,6 @@
 .main {
   flex-grow: 1;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .main::before {
@@ -32,29 +32,36 @@
     no-repeat,
     repeat;
   background-size: contain;
-  height: 100%;
   width: calc(19px / var(--resolution));
 }
 
 .content {
   --border-color: #9eb6ce;
-  --cell-padding: 1.5em;
   display: grid;
-  grid-template-columns: calc(33px / var(--resolution)) 90vw repeat(7, 120px);
-  grid-template-rows: calc(16px / var(--resolution)) auto auto;
-  overflow: hidden;
+  grid-template-columns: calc(33px / var(--resolution)) min-content minmax(auto, 80vw) min-content;
+  grid-template-rows: calc(16px / var(--resolution)) repeat(6, min-content) auto;
+  overflow: auto;
   width: 100%;
 }
 
-@media screen and (min-width: 1024px){
+.content p {
+  margin: .5em 1.5em;
+  max-width: 80vw;
+}
+
+@media screen and (min-width: 1024px) {
   .content {
-    grid-template-columns: calc(33px / var(--resolution)) 48vw repeat(7, 10vw);
+  grid-template-columns: calc(33px / var(--resolution)) auto minmax(auto, 50em) auto;
+
+}
+  .content p {
+    font-size: 1.25em;
   }
 }
 
 .col0 {
   background: #e4ecf7;
-  border: solid 1px var(--border-color) ;
+  border: solid 1px var(--border-color);
   border-left: none;
 }
 
@@ -62,7 +69,7 @@
   background-color: #fff;
   border: solid 1px #d0d7e5;
   border-left: none;
-  padding: var(--cell-padding);
+  padding: 0;
 }
 
 .row0 {
@@ -100,7 +107,7 @@
 .download {
   border: outisde 5px;
   background: linear-gradient(#eee, #ccc);
-  box-shadow: 1px 1px 2px rgba(0,0,0,.1);
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
   cursor: pointer;
   font-size: 2em;
 }
@@ -113,5 +120,11 @@
 .download:active {
   border: ridge inset 5px;
   background: linear-gradient(#ccc, #eee);
-  box-shadow: 1px 1px 2px rgba(0,0,0,.1) inset;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, .1) inset;
+}
+
+.downloadWrapper {
+  display: inline-block;
+  padding: 1.5em;
+  width: auto;
 }

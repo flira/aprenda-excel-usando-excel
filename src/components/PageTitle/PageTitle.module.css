@@ -7,7 +7,7 @@
   color: #333;
   justify-content: center;
   margin: 0;
-  padding: var(--cell-padding, 1.5em);
+  padding: 1.5em;
   text-align: center;
 }
 
