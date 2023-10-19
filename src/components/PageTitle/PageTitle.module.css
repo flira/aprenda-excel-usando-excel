@@ -17,6 +17,10 @@
   }
 }
 
+:global(.self-destruction) .title {
+  cursor: default;
+}
+
 .line1 {
   font-size: 2.62em;
 }
@@ -109,6 +113,42 @@
   line-height: 1;
   position: absolute;
 }
+
+:global(.creu1) .intro1,
+:global(.creu1) .wordart1,
+:global(.creu1) .wordart2,
+:global(.creu1) .wrapper {
+  animation-duration: calc(var(--animation-duration) * .8);
+}
+
+:global(.creu2) .intro1,
+:global(.creu2) .wordart1,
+:global(.creu2) .wordart2,
+:global(.creu2) .wrapper {
+  animation-duration: calc(var(--animation-duration) * .7);
+}
+
+:global(.creu3) .intro1,
+:global(.creu3) .wordart1,
+:global(.creu3) .wordart2,
+:global(.creu3) .wrapper {
+  animation-duration: calc(var(--animation-duration) * .5);
+}
+
+:global(.creu4) .intro1,
+:global(.creu4) .wordart1,
+:global(.creu4) .wordart2,
+:global(.creu4) .wrapper {
+  animation-duration: calc(var(--animation-duration) * .4);
+}
+
+:global(.creu5) .intro1,
+:global(.creu5) .wordart1,
+:global(.creu5) .wordart2,
+:global(.creu5) .wrapper {
+  animation-duration: calc(var(--animation-duration) * .2);
+}
+
 
 @keyframes blink {
   0% {

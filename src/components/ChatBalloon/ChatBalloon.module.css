@@ -34,3 +34,7 @@
   background: #000;
   transform: translateX(-1px);
 }
+
+.balloon p:first-child {
+  margin-top: 0;
+}

@@ -1,16 +1,32 @@
-import { Dispatch, useEffect, useState } from 'react'
-import { useCaos, useCaosDispatcher } from '@/hooks/CaosContext'
+import { useEffect, useState } from 'react'
+import { useEntropy, useEntropyDispatcher } from '@/hooks/entropyContext'
 import css from './PageTitle.module.css'
 
+let destructionClock: NodeJS.Timeout | number = 0
+
 function PageTitle(): JSX.Element {
-  const caos = useCaos()
-  const caosDispatcher = useCaosDispatcher()
+  const entropy = useEntropy()
+  const entropyDispatcher = useEntropyDispatcher()
+
+  const selfDestruction: () => void = () => {
+    entropyDispatcher('destroy')
+  }
+
   const onMouseDown: () => void = () => {
-    if (caos.value === caos.max) {
-      caosDispatcher('reset')
-      return
+    switch (entropy.value) {
+      case entropy.max - 2:
+        destructionClock = setTimeout(selfDestruction, 5e3)
+        entropyDispatcher('increment')
+        return
+      case entropy.max - 1:
+        entropyDispatcher('reset')
+        break
+      default:
+        entropyDispatcher('increment')
     }
-    caosDispatcher('increment')
+    if (destructionClock) {
+      clearTimeout(destructionClock)
+    }
   }
 
   /**
@@ -32,13 +48,13 @@ function PageTitle(): JSX.Element {
       className={css.title}
       onClick={onMouseDown}>
       <div className={css.line1}>
-        <span className={css.intro1}>Aprenda</span> 
-        <span className={`${css.wordart1} ${isMac ? css.noshadow : ''} ${css.shadow}`}>Excel</span> 
+        <span className={css.intro1}>Aprenda</span>
+        <span className={`${css.wordart1} ${isMac ? css.noshadow : ''} ${css.shadow}`}>Excel</span>
       </div>
       <div className={css.line2}>
         <span className={css.intro2}>
           <span className={css.wrapper}>{splitText('usando')}</span>
-        </span> 
+        </span>
         <span className={`${css.wordart2} ${css.shadow}`}>Excel</span>
       </div>
     </h1>

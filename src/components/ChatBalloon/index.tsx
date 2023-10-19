@@ -5,9 +5,9 @@ import css from './ChatBalloon.module.css'
  * @param {string} [props.children] - Chat Balloon text.
  * @returns A chat balloon JSX Element.
  */
-function ChatBalloon (props?: {children?: string}): JSX.Element {
-  const innerText = props && props.children ? props.children : ''
-    return <div className={`${css.balloon} pseudos`}>{innerText}</div>
+function ChatBalloon({ children }: { children?: string | JSX.Element }): JSX.Element {
+  const innerText = children ? children : ''
+  return <div className={`${css.balloon} pseudos`}>{innerText}</div>
 }
 
 export default ChatBalloon

@@ -1,4 +1,5 @@
-import { useCaos } from '@/hooks/CaosContext'
+import {useEffect, useState} from 'react'
+import { useEntropy } from '@/hooks/entropyContext'
 import useScreenResolution from '@/hooks/useScreenResolution'
 import Head from 'next/head'
 import Header from '@/components/Header'
@@ -7,18 +8,25 @@ import Clippy from '@/components/Clippy'
 import ExcelGrid from '@/components/ExcelGrid'
 
 export default function Home(): JSX.Element {
-  const caos = useCaos()
-  const caosClassName: () => string = () => {
-    if (!caos.value) {
-      return ''
-    } else if (caos.value === caos.max) {
-      return `creu${caos.value - 1} self-destruction`
+  useScreenResolution()
+  const entropy = useEntropy()
+  const [entropyCssClass, setCssEntropyClass] = useState('')
+
+  function entropyClassName() {
+    if (!entropy.value) {
+      setCssEntropyClass('')
+      return
+    } else if (entropy.value === entropy.max) {
+      setCssEntropyClass(`creu${entropy.value - 1} self-destruction`)
+      return
     } else {
-      return `creu${caos.value}`
+      setCssEntropyClass(`creu${entropy.value}`)
+      return 
     }
   }
-  useScreenResolution()
 
+  useEffect(entropyClassName, [entropy])
+  
   return (
     <>
       <Head>
@@ -31,7 +39,7 @@ export default function Home(): JSX.Element {
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={caosClassName()}>
+      <div className={entropyCssClass}>
         <main className='body-main'>
           <Header>{title}</Header>
           <ExcelGrid />
