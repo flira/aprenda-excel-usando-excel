@@ -32,7 +32,7 @@ function Clippy({ children }: { children?: JSX.Element | string }): JSX.Element 
   useEffect(() => {
     if (entropy.value === entropy.max) {
       const speech: JSX.Element = entropy.refresh ?
-        <div><p>Caraca, mané! Nem recarregar rolou!</p><p>Vai ter que ser por esse <button onClick={reset}>botão</button> mesmo.</p></div> :
+        <div><p>É, recarregar não rolou :-(</p><p><button onClick={reset}>Clique aqui</button>, talvez?</p></div> :
         <div>Putz, deu ruim. <button onClick={reset}>Clica aqui</button> para arrumar a parada.</div>
       setClippy({
         image: ImgCaos,
