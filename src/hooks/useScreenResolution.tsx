@@ -14,6 +14,7 @@ function useScreenResolution() {
   }
 
   useEffect(() => {
+    updateState()
     window.addEventListener('resize', updateState)
     return () => {
       window.removeEventListener('resize', updateState)
