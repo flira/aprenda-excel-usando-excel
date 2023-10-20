@@ -12,3 +12,9 @@
   right: 44px;
   width: calc(236px / var(--resolution));
 }
+
+.speed {
+  display: inline-block;
+  padding-right: 1rem;
+  width: auto;
+}

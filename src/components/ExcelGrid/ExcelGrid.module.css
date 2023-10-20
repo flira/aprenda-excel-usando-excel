@@ -101,8 +101,17 @@
 :global(.creu5) .col,
 :global(.creu5) .cell,
 :global(.creu5) .row {
-  transition: transform .75s cubic-bezier(.95,.05,.8,.04);
+  transition-property: box-shadow, transform, filter;
+  transition-duration: .75s;
+  transition-timing-function: cubic-bezier(.95,.05,.8,.04);
 }
+
+:global(.self-destruction) .col,
+:global(.self-destruction) .cell,
+:global(.self-destruction) .row {
+  box-shadow: 0 0 50px rgba(0,0,0,.15), 0 0 20px rgba(0,0,0,.1), 0 0 10px rgba(0,0,0,.05);
+}
+
 
 .col,
 .cell {

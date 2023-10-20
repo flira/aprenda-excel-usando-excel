@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import { useEntropy } from '@/hooks/entropyContext'
 import useScreenResolution from '@/hooks/useScreenResolution'
 import Head from 'next/head'
@@ -21,12 +21,12 @@ export default function Home(): JSX.Element {
       return
     } else {
       setCssEntropyClass(`creu${entropy.value}`)
-      return 
+      return
     }
   }
 
   useEffect(entropyClassName, [entropy])
-  
+
   return (
     <>
       <Head>
@@ -46,7 +46,7 @@ export default function Home(): JSX.Element {
           <Footer>{title}</Footer>
         </main>
         <aside>
-          <Clippy>Coeh, amizade? Bora aprender um Excelzinho?</Clippy>
+          <Clippy />
         </aside>
       </div>
     </>

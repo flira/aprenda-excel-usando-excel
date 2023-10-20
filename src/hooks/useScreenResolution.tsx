@@ -5,7 +5,9 @@ import { useState, useEffect } from "react"
  * more than their original size
  */
 function useScreenResolution() {
-  const [resolution, setResolution] = useState(1);
+  const [resolution, setResolution] = useState(
+    typeof window !== 'undefined' ? window.devicePixelRatio : 1
+  );
 
   const updateState: () => void = () => {
     const res: number = window.devicePixelRatio > 1 ?
@@ -19,7 +21,7 @@ function useScreenResolution() {
     return () => {
       window.removeEventListener('resize', updateState)
     }
-  }, [false])
+  }, [resolution])
 
   const updateCssVar: () => void = () => {
     (document.querySelector(':root') as HTMLElement)?.style

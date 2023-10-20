@@ -7,7 +7,6 @@ import {
   ReactNode,
   createContext,
   useContext,
-  useEffect,
   useReducer
 } from "react"
 import safeStorage, { SafeLocalStorage } from "./localStorage"
@@ -81,7 +80,7 @@ export function useEntropyDispatcher(): Dispatch<entropyReducerActions> {
   return useContext(EntropyDispatcherContext)
 }
 
-type entropyReducerActions = 'decrement' | 'destroy' | 'increment' | 'reset'
+export type entropyReducerActions = 'decrement' | 'destroy' | 'increment' | 'reset'
 
 /**
  * @param {EntropyLevel} entropy

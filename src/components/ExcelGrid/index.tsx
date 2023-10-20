@@ -13,28 +13,28 @@ type Cell = {
 
 function ExcelGrid(): JSX.Element {
   const entropy: Entropy = useEntropy()
-  const paragraphs = json.paragraphs
   const totalCols: number = 4
-  const totalRows: number = paragraphs.length + 3
+  const totalRows: number = json.paragraphs.length + 3
 
   const contentMap: Map<string, Cell> = new Map()
   contentMap
     .set('A1', { el: <PageTitle />, colSpan: 3 })
-    .set(`B${paragraphs.length + 2}`, { el: <DownloadButton /> })
-  paragraphs.forEach((p: string, i: number) => {
+    .set(`B${json.paragraphs.length + 2}`, { el: <DownloadButton /> })
+
+    json.paragraphs.forEach((p: string, i: number) => {
     const cell: string = 'B' + (2 + i)
     contentMap.set(cell, { el: <p>{p}</p> })
   })
 
   useEffect(() => {
 
-  }) 
+  })
 
   const setDestruction: () => boolean = () => entropy.value === entropy.max
   return (
     <div className={`${css.main} pseudos flex`}>
       <article className={css.content}>
-        {buildFirstRow(setDestruction(), totalCols)}
+        {buildFirstRow(setDestruction(), totalCols, totalRows)}
         {buildRows(setDestruction(), totalCols, totalRows, contentMap)}
       </article>
     </div>
@@ -42,6 +42,8 @@ function ExcelGrid(): JSX.Element {
 }
 
 type CellElement = {
+  row: number,
+  totalRows: number,
   selfDestruction: boolean,
   children?: JSX.Element,
   className?: string,
@@ -50,6 +52,8 @@ type CellElement = {
 }
 
 function Cell({
+  row,
+  totalRows,
   selfDestruction,
   children,
   className = css.cell,
@@ -57,7 +61,7 @@ function Cell({
   label = '' }: CellElement): JSX.Element {
   const ref: LegacyRef<HTMLDivElement> = useRef(null)
   const initialStyle: CSSProperties = colSpan ?
-    {gridColumn: `span ${colSpan}`} : {}
+    { gridColumn: `span ${colSpan}` } : {}
   const [style, setStyle] = useState(initialStyle);
   const randomDeg: () => string = () => (
     !!Math.round(Math.random()) ? '-' : ''
@@ -75,6 +79,7 @@ function Cell({
     setStyle({
       ...style,
       transform: !selfDestruction ? '' : `rotate(${randomDeg()}) translateY(${fall()}px)`,
+      filter: !selfDestruction ? '' : `blur(${(totalRows - (row + 1))/1.5}px)`,
       transitionDelay: `${Math.round(Math.random() * 350)}ms`,
     })
   }
@@ -102,18 +107,24 @@ function mapCellId(col: number, row: number): string {
   return `${String.fromCharCode(64 + col)}${row}`
 }
 
-function buildFirstRow(destruction: boolean, numCols: number): JSX.Element[] {
+function buildFirstRow(
+  destruction: boolean, totalCols: number, totalRows: number
+): JSX.Element[] {
   const cells = [<Cell
     key="cell-00"
     className={css.cell0}
-    selfDestruction={destruction} />]
+    row={0}
+    selfDestruction={destruction}
+    totalRows={totalRows} />]
 
-  for (let i = 1; i < numCols; i++) {
+  for (let i = 1; i < totalCols; i++) {
     cells.push(<Cell
       key={`cell-0${i}`}
       className={css.row}
       label={String.fromCharCode(64 + i)}
-      selfDestruction={destruction} />)
+      row={0}
+      selfDestruction={destruction}
+      totalRows={totalRows} />)
   }
   return cells;
 }
@@ -131,8 +142,11 @@ function buildRows(
           <Cell
             key={`cell-${row}`}
             className={css.col}
+            label={`${row}`}
+            row={row}
             selfDestruction={destruction}
-            label={`${row}`} />
+            totalRows={rows}
+             />
         )
         continue
       }
@@ -143,6 +157,8 @@ function buildRows(
           key={`cell${cellId}`}
           className={css.cell}
           colSpan={child?.colSpan ? child.colSpan : undefined}
+          row={row}
+          totalRows={rows}
           selfDestruction={destruction}>
           {child?.el}
         </Cell>)

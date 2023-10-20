@@ -2,31 +2,16 @@ import { useEffect, useState } from 'react'
 import { useEntropy, useEntropyDispatcher } from '@/hooks/entropyContext'
 import css from './PageTitle.module.css'
 
-let destructionClock: NodeJS.Timeout | number = 0
-
 function PageTitle(): JSX.Element {
   const entropy = useEntropy()
   const entropyDispatcher = useEntropyDispatcher()
 
-  const selfDestruction: () => void = () => {
-    entropyDispatcher('destroy')
-  }
-
   const onMouseDown: () => void = () => {
-    switch (entropy.value) {
-      case entropy.max - 2:
-        destructionClock = setTimeout(selfDestruction, 5e3)
-        entropyDispatcher('increment')
-        return
-      case entropy.max - 1:
-        entropyDispatcher('reset')
-        break
-      default:
-        entropyDispatcher('increment')
+    if (entropy.value === entropy.max - 1) {
+      entropyDispatcher('destroy')
+      return
     }
-    if (destructionClock) {
-      clearTimeout(destructionClock)
-    }
+    entropyDispatcher('increment')
   }
 
   /**

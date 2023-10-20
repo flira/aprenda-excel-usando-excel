@@ -8,7 +8,7 @@ import {
 } from "react"
 
 /** @see useScreenSize */
-export type ScreenSize = 'medium' | 'narrow' |'wide' 
+export type ScreenSize = 'medium' | 'narrow' | 'wide'
 
 const initialScreenSize: ScreenSize = 'medium' as ScreenSize
 const ScreenSizeContext: Context<ScreenSize> =
@@ -21,7 +21,9 @@ const ScreenSizeContext: Context<ScreenSize> =
 export function ScreenSizeProvider(
   { children }: { children: ReactNode }
 ): JSX.Element {
-  const [screenSize, setScreenSize] = useState(initialScreenSize)
+  const [screenSize, setScreenSize] = useState(
+    typeof window !== 'undefined' ? getScreenSize() : initialScreenSize
+  )
 
   const updateState: () => void = () => {
     setScreenSize(getScreenSize())
@@ -48,7 +50,7 @@ export function useScreenSize(): ScreenSize {
 }
 
 function getScreenSize(): ScreenSize {
-  const queries: {[key: string]: string} = {
+  const queries: { [key: string]: string } = {
     medium: '(min-width: 40rem) and (max-width: 79rem)',
     narrow: '(max-width: 39rem)',
     wide: '(min-width: 80rem)'
