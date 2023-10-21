@@ -13,6 +13,10 @@
   width: calc(236px / var(--resolution));
 }
 
+.window img {
+  background-color: #348aa5;
+}
+
 .speed {
   display: inline-block;
   padding-right: 1rem;

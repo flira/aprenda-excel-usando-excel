@@ -11,7 +11,7 @@ import {
 } from "react"
 import safeStorage, { SafeLocalStorage } from "./localStorage"
 
-type EntropyLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6
+export type EntropyLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
 export type Entropy = {
   /** If the user tried to refresh the page after activating destruction */

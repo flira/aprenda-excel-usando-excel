@@ -23,12 +23,11 @@ type ClippyState = {
  */
 function Clippy(): JSX.Element {
   const entropy: Entropy = useEntropy()
-  const [clippy, setClippy] = useState({
-    image: ImgDefault,
-    speech: <div><p>Coeh, amizade? Bora aprender um Excelzinho?</p></div>
-  } as ClippyState)
+  const initialState: ClippyState = entropy.refresh ?
+    clippyStates({...entropy, value: 0}) : clippyStates(entropy)
+  const [clippy, setClippy] = useState(initialState)
 
-  useEffect(() => {setClippy(clippyStates(entropy))}, [entropy])
+  useEffect(() => { setClippy(clippyStates(entropy)) }, [entropy])
 
   return (
     <div>
@@ -51,7 +50,7 @@ function clippyStates(entropy: Entropy): ClippyState {
     <div>
       <div className={css.speed}>
         <EntropyBtn value='decrement'>-</EntropyBtn>
-        <EntropyBtn value='increment'>+</EntropyBtn>
+        <EntropyBtn value={entropy.value !== entropy.max - 1 ? 'increment' : 'destroy'}>+</EntropyBtn>
       </div>
       <EntropyBtn value='reset'>reset</EntropyBtn>
     </div>
@@ -65,7 +64,7 @@ function clippyStates(entropy: Entropy): ClippyState {
     case 1:
       return {
         image: ImgSpeed1,
-        speech: <div><p>Opa. Bora pro fundo do poço?</p>{controller}</div>
+        speech: <div><p>Opa. Tá querendo ir fundo nos estudos?</p><p>Que tal uma pá?</p>{controller}</div>
       }
     case 2:
       return {
