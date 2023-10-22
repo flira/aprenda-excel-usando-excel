@@ -62,7 +62,7 @@
 }
 
 
-@media screen and (min-width: 70rem) {
+@media screen and (min-width: 90rem) {
   .content {
     grid-template-columns: calc(33px / var(--resolution)) auto 50rem auto;
   }
