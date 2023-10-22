@@ -5,37 +5,29 @@ import PageTitle from '../PageTitle'
 import css from './ExcelGrid.module.css'
 import json from './paragraphs.json'
 
-
-type Cell = {
-  el: JSX.Element
-  colSpan?: number
+const { cols, rows } = {
+  cols: 4,
+  rows: json.paragraphs.length + 3
 }
 
 function ExcelGrid(): JSX.Element {
   const entropy: Entropy = useEntropy()
-  const totalCols: number = 4
-  const totalRows: number = json.paragraphs.length + 3
-
-  const contentMap: Map<string, Cell> = new Map()
+  const contentMap: Map<string, JSX.Element> = new Map()
   contentMap
-    .set('A1', { el: <PageTitle />, colSpan: 3 })
-    .set(`B${json.paragraphs.length + 2}`, { el: <DownloadButton /> })
+    .set('A1', <PageTitle />)
+    .set(`B${json.paragraphs.length + 2}`, <DownloadButton />)
 
-    json.paragraphs.forEach((p: string, i: number) => {
+  json.paragraphs.forEach((p: string, i: number) => {
     const cell: string = 'B' + (2 + i)
-    contentMap.set(cell, { el: <p>{p}</p> })
-  })
-
-  useEffect(() => {
-
+    contentMap.set(cell, <p>{p}</p>)
   })
 
   const setDestruction: () => boolean = () => entropy.value === entropy.max
   return (
     <div className={`${css.main} pseudos flex`}>
       <article className={css.content}>
-        {buildFirstRow(setDestruction(), totalCols, totalRows)}
-        {buildRows(setDestruction(), totalCols, totalRows, contentMap)}
+        {buildFirstRow(setDestruction())}
+        {buildRows(setDestruction(), contentMap)}
       </article>
     </div>
   );
@@ -43,25 +35,22 @@ function ExcelGrid(): JSX.Element {
 
 type CellElement = {
   row: number,
-  totalRows: number,
   selfDestruction: boolean,
   children?: JSX.Element,
   className?: string,
-  colSpan?: number,
+  cellId?: string,
   label?: string,
 }
 
 function Cell({
   row,
-  totalRows,
   selfDestruction,
   children,
   className = css.cell,
-  colSpan,
+  cellId = '',
   label = '' }: CellElement): JSX.Element {
   const ref: LegacyRef<HTMLDivElement> = useRef(null)
-  const initialStyle: CSSProperties = colSpan ?
-    { gridColumn: `span ${colSpan}` } : {}
+  const initialStyle: CSSProperties = {}
   const [style, setStyle] = useState(initialStyle);
   const randomDeg: () => string = () => (
     !!Math.round(Math.random()) ? '-' : ''
@@ -71,15 +60,16 @@ function Cell({
     if (!ref.current || !ref.current.parentElement) {
       return 0
     }
-    const el: HTMLDivElement = ref.current
-    return (el.parentElement as HTMLElement).offsetHeight - el.offsetTop - el.offsetHeight
+    const $: HTMLDivElement = ref.current
+    return ($.parentElement as HTMLElement).offsetHeight -
+      $.offsetTop - $.offsetHeight
   }
 
   const updateStyle: () => void = () => {
     setStyle({
       ...style,
       transform: !selfDestruction ? '' : `rotate(${randomDeg()}) translateY(${fall()}px)`,
-      filter: !selfDestruction ? '' : `blur(${(totalRows - (row + 1))/1.5}px)`,
+      filter: !selfDestruction ? '' : `blur(${(rows - (row + 1)) / 1.5}px)`,
       transitionDelay: `${Math.round(Math.random() * 350)}ms`,
     })
   }
@@ -96,6 +86,7 @@ function Cell({
     <div
       className={className}
       data-label={label}
+      id={css[cellId]}
       style={style}
       ref={ref}>
       {children}
@@ -103,37 +94,33 @@ function Cell({
   )
 }
 
-function mapCellId(col: number, row: number): string {
-  return `${String.fromCharCode(64 + col)}${row}`
+function numToLetter(n: number): string {
+  return String.fromCharCode(64 + n)
 }
 
-function buildFirstRow(
-  destruction: boolean, totalCols: number, totalRows: number
-): JSX.Element[] {
+function buildFirstRow(destruction: boolean): JSX.Element[] {
   const cells = [<Cell
-    key="cell-00"
+    key="cell-0"
     className={css.cell0}
     row={0}
-    selfDestruction={destruction}
-    totalRows={totalRows} />]
+    selfDestruction={destruction} />]
 
-  for (let i = 1; i < totalCols; i++) {
+  for (let i = 1; i < cols; i++) {
+    const id: string = `cell-${numToLetter(i)}`
     cells.push(<Cell
-      key={`cell-0${i}`}
+      key={id}
+      cellId={id}
       className={css.row}
-      label={String.fromCharCode(64 + i)}
+      label={numToLetter(i)}
       row={0}
-      selfDestruction={destruction}
-      totalRows={totalRows} />)
+      selfDestruction={destruction} />)
   }
   return cells;
 }
 
 function buildRows(
   destruction: boolean,
-  cols: number,
-  rows: number,
-  childrenMap?: Map<string, Cell>): JSX.Element[] {
+  childrenMap?: Map<string, JSX.Element>): JSX.Element[] {
   const cells: JSX.Element[] = []
   for (let row = 1; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
@@ -141,28 +128,25 @@ function buildRows(
         cells.push(
           <Cell
             key={`cell-${row}`}
+            cellId={`cell-${row}`}
             className={css.col}
             label={`${row}`}
             row={row}
-            selfDestruction={destruction}
-            totalRows={rows}
-             />
+            selfDestruction={destruction} />
         )
         continue
       }
-      const cellId: string = mapCellId(col, row)
-      const child: Cell | undefined = childrenMap?.get(cellId)
+      const cellId: string = numToLetter(col) + row
+      const child: JSX.Element | undefined = childrenMap?.get(cellId)
       cells.push(
         <Cell
-          key={`cell${cellId}`}
-          className={css.cell}
-          colSpan={child?.colSpan ? child.colSpan : undefined}
+          key={`cell-${cellId}`}
+          cellId={`cell-${cellId}`}
+          className={css.cell + (!child ? ` ${css.empty}` : '')}
           row={row}
-          totalRows={rows}
           selfDestruction={destruction}>
-          {child?.el}
+          {child}
         </Cell>)
-      col += child?.colSpan ? child.colSpan : 0
     }
   }
   return cells

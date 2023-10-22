@@ -11,8 +11,7 @@ import {
 export type ScreenSize = 'medium' | 'narrow' | 'wide'
 
 const initialScreenSize: ScreenSize = 'medium' as ScreenSize
-const ScreenSizeContext: Context<ScreenSize> =
-  createContext(initialScreenSize)
+const ScreenSizeContext: Context<ScreenSize> = createContext(initialScreenSize)
 
 /** 
  * Provide context for the screen size.
