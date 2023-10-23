@@ -55,7 +55,7 @@ function splitText(text: string): JSX.Element[] {
         style={
           {
             animationDelay:
-              `calc(${i * (arr.length * .025)} * var(--animation-duration))`
+              `calc(${Math.round(i * (arr.length * 25)) / 1e3} * var(--animation-duration))`
           }}>
         {value}
       </span>

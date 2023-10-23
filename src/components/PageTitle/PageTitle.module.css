@@ -43,8 +43,11 @@
 }
 
 .intro1 {
-  --animation-duration: .5s;
+  --animation-duration: 1s;
   animation: var(--animation-duration) ease-in-out 0s infinite alternate blink;
+  background-clip: text;
+  background-image: linear-gradient(to right, #d30808, #e2b51f, #34be34, #1dacac, #0000ff, #782cdb 90%, #782cdb);
+  color: transparent;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 
@@ -57,14 +60,15 @@
 
 .wrapper {
   --animation-duration: .5s;
-  background-clip: text;
-  background-image: linear-gradient(to bottom, #d30808, #d30808 5%, #e2b51f, #34be34, #1dacac, #0000ff, #782cdb);
-  color: transparent;
   line-height: 1;
 }
 
 .letter {
-  animation: var(--animation-duration) ease-in-out 0s infinite alternate-reverse wagon-animation;
+  animation: var(--animation-duration) cubic-bezier(0.4, 0, 0.2, 1) 0s infinite
+  alternate-reverse wagon-animation;
+  background-clip: text;
+  background-image: linear-gradient(to bottom, #333, #666);
+  color: transparent;
   display: inline-block;
 }
 
@@ -124,42 +128,46 @@
 :global(.creu1) .intro1,
 :global(.creu1) .wordart1,
 :global(.creu1) .wordart2,
-:global(.creu1) .wrapper {
+:global(.creu1) .letter {
   animation-duration: calc(var(--animation-duration) * .8);
 }
 
 :global(.creu2) .intro1,
 :global(.creu2) .wordart1,
 :global(.creu2) .wordart2,
-:global(.creu2) .wrapper {
+:global(.creu2) .letter {
   animation-duration: calc(var(--animation-duration) * .7);
 }
 
 :global(.creu3) .intro1,
 :global(.creu3) .wordart1,
 :global(.creu3) .wordart2,
-:global(.creu3) .wrapper {
+:global(.creu3) .letter {
   animation-duration: calc(var(--animation-duration) * .5);
 }
 
 :global(.creu4) .intro1,
 :global(.creu4) .wordart1,
 :global(.creu4) .wordart2,
-:global(.creu4) .wrapper {
+:global(.creu4) .letter {
   animation-duration: calc(var(--animation-duration) * .4);
 }
 
 :global(.creu5) .intro1,
 :global(.creu5) .wordart1,
 :global(.creu5) .wordart2,
-:global(.creu5) .wrapper {
+:global(.creu5) .letter {
   animation-duration: calc(var(--animation-duration) * .2);
 }
 
 
 @keyframes blink {
   0% {
-    opacity: 0.2;
+    opacity: .2;
+  }
+
+  70% {
+    opacity: 1;
   }
 
   100% {
