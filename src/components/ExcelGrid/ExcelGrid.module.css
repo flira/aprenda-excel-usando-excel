@@ -76,7 +76,7 @@
   #cell-B,
   #cell-C,
   .cell.empty {
-    display: block;
+    display: inherit;
   }
 
   #cell-A1 {
