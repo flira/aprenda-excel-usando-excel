@@ -15,12 +15,13 @@ function ExcelGrid(): JSX.Element {
   const contentMap: Map<string, JSX.Element> = new Map()
   contentMap
     .set('A1', <PageTitle />)
-    .set(`B${json.paragraphs.length + 2}`, <DownloadButton />)
-    .set(`B${json.paragraphs.length + 3}`, (
+    .set(`B${json.paragraphs.length + 2}`, (
       <small>
         <p>Microsoft Excel<sup>®</sup> e Clippy são propriedades intelectuais da Microsoft.<br />Este site não possui nenhuma relação com a empresa.</p>
       </small>
     ))
+    .set(`B${json.paragraphs.length + 3}`, <DownloadButton />)
+
 
   json.paragraphs.forEach((p: string, i: number) => {
     const cell: string = 'B' + (2 + i)
@@ -29,7 +30,7 @@ function ExcelGrid(): JSX.Element {
 
   const setDestruction: () => boolean = () => entropy.value === entropy.max
   const wrapperStyle: CSSProperties = {
-    gridTemplateRows: `calc(16px / var(--resolution)) auto repeat(${rows - 4}, min-content) auto min-content`
+    gridTemplateRows: `calc(16px / var(--resolution)) auto repeat(${rows - 3}, min-content) auto`
   }
 
   return (

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 
+
 /**
  * Avoid scaling up background images
  * more than their original size
@@ -10,9 +11,7 @@ function useScreenResolution() {
   );
 
   const updateState: () => void = () => {
-    const res: number = window.devicePixelRatio > 1 ?
-      window.devicePixelRatio : 1
-    setResolution(res)
+    setResolution(window.devicePixelRatio)
   }
 
   useEffect(() => {
