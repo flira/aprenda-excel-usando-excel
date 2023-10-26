@@ -7,7 +7,7 @@ import json from './paragraphs.json'
 
 const { cols, rows } = {
   cols: 4,
-  rows: json.paragraphs.length + 3
+  rows: json.paragraphs.length + 4
 }
 
 function ExcelGrid(): JSX.Element {
@@ -16,6 +16,11 @@ function ExcelGrid(): JSX.Element {
   contentMap
     .set('A1', <PageTitle />)
     .set(`B${json.paragraphs.length + 2}`, <DownloadButton />)
+    .set(`B${json.paragraphs.length + 3}`, (
+      <small>
+        <p>Microsoft Excel<sup>®</sup> e Clippy são propriedades intelectuais da Microsoft.<br />Este site não possui nenhuma relação com a empresa.</p>
+      </small>
+    ))
 
   json.paragraphs.forEach((p: string, i: number) => {
     const cell: string = 'B' + (2 + i)
@@ -23,9 +28,13 @@ function ExcelGrid(): JSX.Element {
   })
 
   const setDestruction: () => boolean = () => entropy.value === entropy.max
+  const wrapperStyle: CSSProperties = {
+    gridTemplateRows: `calc(16px / var(--resolution)) auto repeat(${rows - 4}, min-content) auto min-content`
+  }
+
   return (
     <div className={`${css.main} pseudos flex`}>
-      <article className={css.content}>
+      <article className={css.content} style={wrapperStyle}>
         {buildFirstRow(setDestruction())}
         {buildRows(setDestruction(), contentMap)}
       </article>
@@ -138,11 +147,12 @@ function buildRows(
       }
       const cellId: string = numToLetter(col) + row
       const child: JSX.Element | undefined = childrenMap?.get(cellId)
+      const hasChild: () => string = () => child ? '' : css.empty
       cells.push(
         <Cell
           key={`cell-${cellId}`}
           cellId={`cell-${cellId}`}
-          className={css.cell + (!child ? ` ${css.empty}` : '')}
+          className={`${css.cell} ${hasChild()}`}
           row={row}
           selfDestruction={destruction}>
           {child}
